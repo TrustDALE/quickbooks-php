@@ -458,18 +458,20 @@ define('QUICKBOOKS_IMPORT_DATEDRIVENTERMS', 'DateDrivenTermsImport');
 /**
  * Query QuickBooks for lists of deleted list items (customers, items, etc.)
  */
-define('QUICKBOOKS_QUERY_DELETEDLISTS', 'ListDeletedQuery');
-define('QUICKBOOKS_IMPORT_DELETEDLISTS', 'ListDeletedImport');
+define('QUICKBOOKS_QUERY_LISTDELETED', 'ListDeletedQuery');
+define('QUICKBOOKS_IMPORT_LISTDELETED', 'ListDeletedImport');
 
 /**
  * Query QuickBooks for lists of deleted transactions (payments, invoices, estimates, etc.)
  */
+define('QUICKBOOKS_OBJECT_DELETEDTXN', 'TxnDeleted');
 define('QUICKBOOKS_QUERY_DELETEDTXNS', 'TxnDeletedQuery');
 define('QUICKBOOKS_IMPORT_DELETEDTXNS', 'TxnDeletedImport');
 
 /**
- * Alias of QUICKBOOKS_QUERY_DELETEDTXNS
+ * DELETEDTXN Aliases
  */
+define('QUICKBOOKS_OBJECT_TXNDELETED', QUICKBOOKS_OBJECT_DELETEDTXN);
 define('QUICKBOOKS_QUERY_DELETEDTRANSACTIONS', QUICKBOOKS_QUERY_DELETEDTXNS);
 define('QUICKBOOKS_QUERY_TXNDELETED', QUICKBOOKS_QUERY_DELETEDTXNS);
 
