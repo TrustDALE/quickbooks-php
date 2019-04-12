@@ -137,7 +137,9 @@ class QuickBooks_QBXML_Schema_Object_ItemInventoryAssemblyAddRq extends QuickBoo
   'ItemInventoryAssemblyLine Quantity' => true,
   'IncludeRetElement' => true,
 );
-	}
+
+	return $paths;
+}
 
 	protected function &_sinceVersionPaths()
 	{

@@ -89,7 +89,9 @@ class QuickBooks_QBXML_Schema_Object_ItemInventoryAssemblyQueryRq extends QuickB
   'IncludeRetElement' => true,
   'OwnerID' => true,
 );
-	}
+
+	return $paths;
+}
 
 	protected function &_sinceVersionPaths()
 	{

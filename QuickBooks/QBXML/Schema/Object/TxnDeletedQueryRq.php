@@ -64,7 +64,9 @@ class QuickBooks_QBXML_Schema_Object_TxnDeletedQueryRq extends QuickBooks_QBXML_
 		  'DeletedDateRangeFilter ToDeletedDate' => true,
 		  'IncludeRetElement' => true,
 		);
-	}
+
+	return $paths;
+}
 
 	protected function &_sinceVersionPaths()
 	{

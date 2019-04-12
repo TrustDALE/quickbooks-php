@@ -167,7 +167,9 @@ class QuickBooks_QBXML_Schema_Object_ItemInventoryAssemblyAddRs extends QuickBoo
   'ItemInventoryAssemblyRet DataExtRet DataExtType' => false,
   'ItemInventoryAssemblyRet DataExtRet DataExtValue' => false,
 );
-	}
+
+	return $paths;
+}
 
 	protected function &_sinceVersionPaths()
 	{
