@@ -458,6 +458,7 @@ define('QUICKBOOKS_IMPORT_DATEDRIVENTERMS', 'DateDrivenTermsImport');
 /**
  * Query QuickBooks for lists of deleted list items (customers, items, etc.)
  */
+define('QUICKBOOKS_OBJECT_LISTDELETED', 'ListDeleted');
 define('QUICKBOOKS_QUERY_LISTDELETED', 'ListDeletedQuery');
 define('QUICKBOOKS_IMPORT_LISTDELETED', 'ListDeletedImport');
 
