@@ -77,8 +77,8 @@ class QuickBooks_QBXML_Schema_Object_AccountQueryRq extends QuickBooks_QBXML_Sch
 	protected function &_isOptionalPaths()
 	{
 		static $paths = array (
-  'ListID' => false,
-  'FullName' => false,
+  'ListID' => true,
+  'FullName' => true,
   'MaxReturned' => true,
   'ActiveStatus' => true,
   'FromModifiedDate' => true,
