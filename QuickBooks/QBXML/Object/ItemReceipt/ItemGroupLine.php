@@ -36,7 +36,7 @@ class QuickBooks_QBXML_Object_ItemReceipt_ItemGroupLine extends QuickBooks_QBXML
 	{
 		return $this->get('ItemGroupRef ListID');
 	}
-	
+
 	public function setItemGroupListID($ListID)
 	{
 		return $this->set('ItemGroupRef ListID', $ListID);
@@ -46,27 +46,27 @@ class QuickBooks_QBXML_Object_ItemReceipt_ItemGroupLine extends QuickBooks_QBXML
 	{
 		return $this->get('ItemGroupRef FullName');
 	}
-	
+
 	public function setItemGroupName($Name)
 	{
 		return $this->set('ItemGroupRef FullName', $Name);
 	}
-  
+
 	public function getQuantity()
 	{
 		return $this->get('Quantity');
 	}
-	
+
 	public function setQuantity($Quantity)
 	{
 		return $this->set('Quantity', (float) $Quantity);
 	}
-  
+
 	public function getUnitOfMeasure()
 	{
 		return $this->get('UnitOfMeasure');
 	}
-	
+
 	public function setUnitOfMeasure($UnitOfMeasure)
 	{
 		return $this->set('UnitOfMeasure', $UnitOfMeasure);
@@ -98,7 +98,7 @@ class QuickBooks_QBXML_Object_ItemReceipt_ItemGroupLine extends QuickBooks_QBXML
 		{
 			$object = $this->_object;
 		}
-		
+
 		switch ($parent)
 		{
 			case QUICKBOOKS_ADD_ITEMRECEIPT:
@@ -125,7 +125,7 @@ class QuickBooks_QBXML_Object_ItemReceipt_ItemGroupLine extends QuickBooks_QBXML
 	 * @param string $root
 	 * @return string
 	 */
-	public function asQBXML($request, $todo_for_empty_elements = QUICKBOOKS_OBJECT_XML_DROP, $indent = "\t", $root = null)
+	public function asQBXML($request, $todo_for_empty_elements = QuickBooks_XML::XML_DROP, $indent = "\t", $root = null)
 	{
 		$this->_cleanup();
 

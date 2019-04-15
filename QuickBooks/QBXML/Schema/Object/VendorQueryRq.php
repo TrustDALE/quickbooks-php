@@ -79,8 +79,8 @@ class QuickBooks_QBXML_Schema_Object_VendorQueryRq extends QuickBooks_QBXML_Sche
 	protected function &_isOptionalPaths()
 	{
 		static $paths = array (
-  'ListID' => false,
-  'FullName' => false,
+  'ListID' => true,
+  'FullName' => true,
   'MaxReturned' => true,
   'ActiveStatus' => true,
   'FromModifiedDate' => true,

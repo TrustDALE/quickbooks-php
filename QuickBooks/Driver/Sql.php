@@ -1210,7 +1210,7 @@ abstract class QuickBooks_Driver_Sql extends QuickBooks_Driver
 			) ", $errnum, $errmsg);
 	}
 
-	protected function _queueGet($user, $requestID, $status = QUICKBOOKS_STATUS_QUEUED)
+	protected function _queueGet($user, $requestID = null, $status = QUICKBOOKS_STATUS_QUEUED)
 	{
 		$errnum = 0;
 		$errmsg = '';
@@ -1219,32 +1219,26 @@ abstract class QuickBooks_Driver_Sql extends QuickBooks_Driver
 			(int) $requestID,
 			$user
 			);
+		$wheres = [];
+		$wheres['filtered'] = array_filter([
+			'quickbooks_queue_id' => (int) $requestID,
+			'qb_username' => '"'.$this->_escape($user).'"',
+			'qb_status' => '"'.$this->_escape($status).'"'
+		]);
 
-		if ($status)
-		{
-			$vars[] = $status;
+		foreach($wheres['filtered'] as $key => $value) {
+			$wheres['mapped'][] = $key." = ".$value;
+		}
 
-			$sql = "
-				SELECT
-					*
-				FROM
-					" . $this->_mapTableName(QUICKBOOKS_DRIVER_SQL_QUEUETABLE) . "
-				WHERE
-					quickbooks_queue_id = " . (int) $requestID . " AND
-					qb_username = '" . $this->_escape($user) . "' AND
-					qb_status = '" . $this->_escape($status) . "'  ";
-		}
-		else
-		{
-			$sql = "
-				SELECT
-					*
-				FROM
-					" . $this->_mapTableName(QUICKBOOKS_DRIVER_SQL_QUEUETABLE) . "
-				WHERE
-					quickbooks_queue_id = " . (int) $requestID . " AND
-					qb_username = '" . $this->_escape($user) . "' ";
-		}
+		$sql = "
+			SELECT
+				*
+			FROM
+				" . $this->_mapTableName(QUICKBOOKS_DRIVER_SQL_QUEUETABLE) . " ";
+
+		if(isset($wheres['mapped'])) {
+			$sql .= "WHERE " . implode(' AND ', $wheres['mapped']) . " ";
+		};
 
 		return $this->_fetch($this->_query($sql, $errnum, $errmsg, 0, 1));
 	}

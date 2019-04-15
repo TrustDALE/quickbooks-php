@@ -117,7 +117,7 @@ class QuickBooks_QBXML_Object_InventoryAdjustment_InventoryAdjustmentLine extend
 		{
 			$object = $this->_object;
 		}
-		
+
 		switch ($parent)
 		{
 			case QUICKBOOKS_ADD_INVENTORYADJUSTMENT:
@@ -144,7 +144,7 @@ class QuickBooks_QBXML_Object_InventoryAdjustment_InventoryAdjustmentLine extend
 	 * @param string $root
 	 * @return string
 	 */
-	public function asQBXML($request, $todo_for_empty_elements = QUICKBOOKS_OBJECT_XML_DROP, $indent = "\t", $root = null)
+	public function asQBXML($request, $todo_for_empty_elements = QuickBooks_XML::XML_DROP, $indent = "\t", $root = null)
 	{
 		$this->_cleanup();
 
