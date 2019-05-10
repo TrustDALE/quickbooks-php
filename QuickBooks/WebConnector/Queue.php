@@ -277,7 +277,8 @@ class QuickBooks_WebConnector_Queue
 				$user = $this->_user;
 			}
 
-			return $this->_driver->queueExists($user, $action, $ident);
+			return $this->_driver->queueExists($user, $action, $ident)
+				|| $this->_driver->recurQueueExists($user, $action, $ident);
 		}
 
 		return null;
@@ -327,6 +328,21 @@ class QuickBooks_WebConnector_Queue
 			$ticket = null;
 			$new_status = QUICKBOOKS_STATUS_CANCELLED;
 			return $this->_driver->queueRemove($user, $action, $ident);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Forcibly clear the queue
+	 *
+	 * @return boolean
+	 */
+	public function clear()
+	{
+		if ($this->_driver)
+		{
+			return $this->_driver->queueClear();
 		}
 
 		return null;

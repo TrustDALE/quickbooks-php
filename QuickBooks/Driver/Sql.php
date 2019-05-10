@@ -1122,6 +1122,29 @@ abstract class QuickBooks_Driver_Sql extends QuickBooks_Driver
 	}
 
 	/**
+	 * Tell whether or not an item exists in the recurring queue
+	 *
+	 * @param string $action
+	 * @param mixed $ident
+	 * @return boolean
+	 */
+	protected function _recurQueueExists($user, $action, $ident)
+	{
+		$errnum = 0;
+		$errmsg = '';
+
+		return $this->_count($this->_query("
+			SELECT
+				quickbooks_recur_id
+			FROM
+				" . $this->_mapTableName(QUICKBOOKS_DRIVER_SQL_RECURTABLE) . "
+			WHERE
+				qb_username = '" . $this->_escape($user) . "' AND
+				qb_action = '" . $this->escape($action) . "' AND
+				ident = '" . $this->escape($ident) . "' ", $errnum, $errmsg));
+	}
+
+	/**
 	 *
 	 *
 	 *
@@ -1155,6 +1178,23 @@ abstract class QuickBooks_Driver_Sql extends QuickBooks_Driver
 				qb_action = '" . $this->_escape($action) . "' AND
 				ident = '" . $this->_escape($ident) . "' AND
 				qb_status = '" . QUICKBOOKS_STATUS_QUEUED . "' ", $errnum, $errmsg);
+	}
+
+	/**
+	 * Forcibly clear the queue
+	 *
+	 * @return boolean
+	 */
+	protected function _queueClear()
+	{
+		$errnum = 0;
+		$errmsg = '';
+
+		$this->_query("
+			TRUNCATE
+			" . $this->_mapTableName(QUICKBOOKS_DRIVER_SQL_QUEUETABLE), $errnum, $errmsg);
+
+		return true;
 	}
 
 	/**

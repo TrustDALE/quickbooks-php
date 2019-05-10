@@ -157,6 +157,8 @@ define('QUICKBOOKS_DRIVER_HOOK_QUEUEEXISTS', 'QuickBooks_Driver::queueExists');
 
 define('QUICKBOOKS_DRIVER_HOOK_QUEUEREMOVE', 'QuickBooks_Driver::queueRemove');
 
+define('QUICKBOOKS_DRIVER_HOOK_QUEUECLEAR', 'QuickBooks_Driver::queueClear');
+
 /**
  *
  * @var string
@@ -224,6 +226,12 @@ define('QUICKBOOKS_DRIVER_HOOK_RECURDEQUEUE', 'QuickBooks_Driver::recurDequeue')
  * @var string
  */
 define('QUICKBOOKS_DRIVER_HOOK_RECURENQUEUE', 'QuickBooks_Driver::recurEnqueue');
+
+/**
+ *
+ * @var string
+ */
+define('QUICKBOOKS_DRIVER_HOOK_RECURQUEUEEXISTS', 'QuickBooks_Driver::recurQueueExists');
 
 /**
  *
@@ -668,6 +676,31 @@ abstract class QuickBooks_Driver
 	abstract protected function _recurDequeue($user, $by_priority = false);
 
 	/**
+	 * Tell whether or not an item exists in the queue
+	 *
+	 * @param string $action
+	 * @param mixed $ident
+	 * @return boolean
+	 */
+	final public function recurQueueExists($user, $action, $ident)
+	{
+		$hookdata = array(
+			'username' => $user,
+			'action' => $action,
+			'ident' => $ident,
+			);
+		$hookerr = '';
+		$this->_callHook(QUICKBOOKS_DRIVER_HOOK_RECURQUEUEEXISTS, null, $hookerr, $hookdata);
+
+		return $this->_recurQueueExists($user, $action, $ident);
+	}
+
+	/**
+	 * @see QuickBooks_Driver::recurQueueExists()
+	 */
+	abstract protected function _recurQueueExists($user, $action, $ident);
+
+	/**
 	 *
 	 *
 	 *
@@ -745,6 +778,25 @@ abstract class QuickBooks_Driver
 	 * @see QuickBooks_Driver::queueRemove()
 	 */
 	abstract protected function _queueRemove($user, $action, $ident);
+
+	/**
+	 * Forcibly clear the queue
+	 *
+	 * @return boolean
+	 */
+	final public function queueClear()
+	{
+		$hookdata = array();
+		$hookerr = '';
+		$this->_callHook(QUICKBOOKS_DRIVER_HOOK_QUEUECLEAR, null, $hookerr, $hookdata);
+
+		return $this->_queueClear();
+	}
+
+	/**
+	 * @see QuickBooks_Driver::queueClear()
+	 */
+	abstract protected function _queueClear();
 
 	/**
 	 * Update the status of a particular item in the queue

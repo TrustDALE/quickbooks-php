@@ -88,7 +88,7 @@ class QuickBooks_XML_Node
 			$this->_children[] = $node;
 		}
 
-		return true;
+		return $node;
 	}
 
 	/**
@@ -356,17 +356,14 @@ class QuickBooks_XML_Node
 
 		$end = end($explode);
 
-		$child = $this->getChildAt($path);
-
-		if (!$child and $create)
+		if ($create)
 		{
-			$this->addChildAt($allbutend, new QuickBooks_XML_Node($end), true);
-			$child = $this->getChildAt($path);
+			$node = $this->addChildAt($allbutend, new QuickBooks_XML_Node($end), true);
 		}
 
-		if ($child)
+		if ($node)
 		{
-			$child->setData($data);
+			$node->setData($data);
 		}
 
 		return false;
@@ -733,13 +730,13 @@ class QuickBooks_XML_Node
 	/**
 	 *
 	 */
-	protected function _asJSONHelper($node, $tabs, $indent)
+	protected function _asJSONHelper()
 	{
-		$json = '';
+		$node = $this;
+		$json = null;
 
-		if ($node->childCount() or $node->attributeCount())	// container elements surrounded with { ... }
-		{
-			$json .= str_repeat($indent, $tabs) . $node->name() . ':{' . "\n";
+		if ($node->childCount() or $node->attributeCount()) {
+			$json .= $node->name() . ': {' . "\n";
 
 			$list = array();
 			foreach ($node->children() as $child)
@@ -767,9 +764,9 @@ class QuickBooks_XML_Node
 	 *
 	 * @return string
 	 */
-	public function asJSON($indent = "\t")
+	public function asJSON()
 	{
-		return '{' . "\n" . $this->_asJSONHelper($this, 1, $indent) . '}';
+		return json_encode($this->_asArrayBranchedHelper($this));;
 	}
 
 	/**
@@ -778,7 +775,7 @@ class QuickBooks_XML_Node
 	 * @param string $mode
 	 * @return array
 	 */
-	public function asArray($mode = QuickBooks_XML::ARRAY_NOATTRIBUTES)
+	public function asArray($mode = QuickBooks_XML::ARRAY_BRANCHED)
 	{
 		switch ($mode)
 		{
@@ -797,6 +794,35 @@ class QuickBooks_XML_Node
 			default:
 				return $this->_asArrayNoAttributesHelper($this);
 		}
+	}
+
+	/**
+	 *
+	 */
+	protected function _asArrayBranchedHelper($node)
+	{
+		if ($node->childCount() || $node->attributeCount()) {
+			$array = ['name' => $node->name()];
+
+			foreach ($node->children() as $child) {
+				if(!$child->childCount() && !$child->attributeCount()) {
+					$array['data'][$child->name()] = $child->data();
+				} else {
+					$array['children'][] = $this->_asArrayBranchedHelper($child);
+				}
+			}
+
+			foreach ($node->attributes() as $key => $value){
+				$array[$key] = $value;
+			}
+		} else {
+			return [
+				'name' => $node->name(),
+				'data' => $node->data()
+			];
+		}
+
+		return collect($array);
 	}
 
 	/**
